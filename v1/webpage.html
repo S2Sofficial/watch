@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Watch</title>
+<style>
+  :root {
+    --bg: #101418;
+    --card: #1b2128;
+    --accent: #4fd1c5;
+    --accent2: #f6ad55;
+    --text: #e6edf3;
+    --muted: #8b95a1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    letter-spacing: 4px;
+    margin-bottom: 24px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .card {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    border: 1px solid #262e37;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .card.active {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(79,209,197,0.25);
+  }
+  .card h2 {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+  .display {
+    font-size: 36px;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+    margin: 10px 0 16px 0;
+    letter-spacing: 1px;
+  }
+  .running { color: var(--accent); }
+  .finished { color: var(--accent2); }
+  .row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  input[type=number] {
+    width: 56px;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #333d47;
+    background: #0d1116;
+    color: var(--text);
+    text-align: center;
+    font-size: 14px;
+  }
+  .inputs {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  button {
+    background: #263038;
+    color: var(--text);
+    border: 1px solid #333d47;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+  }
+  button:hover { background: #303c46; }
+  button.primary { background: var(--accent); color: #06201d; border: none; font-weight: 600; }
+  button.select-btn.active { background: var(--accent); color: #06201d; }
+  .status-line {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 18px;
+  }
+</style>
+</head>
+<body>
+
+<h1>WATCH</h1>
+
+<div class="grid">
+
+  <div class="card" id="card-clock">
+    <h2>Clock</h2>
+    <div class="display" id="clockDisplay">--:--:--</div>
+    <div class="row">
+      <button class="select-btn" data-mode="clock" onclick="selectDisplay('clock')">Show on LCD</button>
+    </div>
+  </div>
+
+  <div class="card" id="card-timer">
+    <h2>Countdown Timer</h2>
+    <div class="display" id="timerDisplay">00:00:00</div>
+    <div class="inputs">
+      <input type="number" id="timerHours" min="0" max="23" value="0"> h
+      <input type="number" id="timerMinutes" min="0" max="59" value="0"> m
+      <input type="number" id="timerSeconds" min="0" max="59" value="0"> s
+    </div>
+    <div class="row">
+      <button class="primary" onclick="timerStart()">Start</button>
+      <button onclick="timerAction('pause')">Pause</button>
+      <button onclick="timerAction('resume')">Resume</button>
+      <button onclick="timerAction('reset')">Reset</button>
+      <button class="select-btn" data-mode="timer" onclick="selectDisplay('timer')">Show on LCD</button>
+    </div>
+  </div>
+
+  <div class="card" id="card-stopwatch">
+    <h2>Stopwatch</h2>
+    <div class="display" id="stopwatchDisplay">00:00.00</div>
+    <div class="row">
+      <button class="primary" onclick="stopwatchAction('start')">Start</button>
+      <button onclick="stopwatchAction('pause')">Pause</button>
+      <button onclick="stopwatchAction('resume')">Resume</button>
+      <button onclick="stopwatchAction('reset')">Reset</button>
+      <button class="select-btn" data-mode="stopwatch" onclick="selectDisplay('stopwatch')">Show on LCD</button>
+    </div>
+  </div>
+
+</div>
+
+<div class="status-line" id="connStatus">Connecting...</div>
+
+<script>
+let currentDisplay = 'clock';
+
+function post(url) {
+  fetch(url, { method: 'POST' }).catch(() => {});
+}
+
+function timerStart() {
+  const h = document.getElementById('timerHours').value || 0;
+  const m = document.getElementById('timerMinutes').value || 0;
+  const s = document.getElementById('timerSeconds').value || 0;
+  fetch(`/timer/start?hours=${h}&minutes=${m}&seconds=${s}`, { method: 'POST' }).catch(() => {});
+}
+
+function timerAction(action) {
+  post('/timer/' + action);
+}
+
+function stopwatchAction(action) {
+  post('/stopwatch/' + action);
+}
+
+function selectDisplay(mode) {
+  fetch('/display?mode=' + mode).catch(() => {});
+  currentDisplay = mode;
+  highlightActive();
+}
+
+function highlightActive() {
+  document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active'));
+
+  const card = document.getElementById('card-' + currentDisplay);
+  if (card) card.classList.add('active');
+
+  const btn = document.querySelector(`.select-btn[data-mode="${currentDisplay}"]`);
+  if (btn) btn.classList.add('active');
+}
+
+function refreshStatus() {
+  fetch('/status')
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('clockDisplay').textContent = data.clock;
+      document.getElementById('timerDisplay').textContent = data.timer;
+      document.getElementById('stopwatchDisplay').textContent = data.stopwatch;
+
+      document.getElementById('timerDisplay').className =
+        'display' + (data.timerRunning ? ' running' : (data.timer === '00:00:00' ? ' finished' : ''));
+
+      document.getElementById('stopwatchDisplay').className =
+        'display' + (data.stopwatchRunning ? ' running' : '');
+
+      currentDisplay = data.display;
+      highlightActive();
+
+      document.getElementById('connStatus').textContent = 'Connected';
+    })
+    .catch(() => {
+      document.getElementById('connStatus').textContent = 'Connection lost - retrying...';
+    });
+}
+
+refreshStatus();
+setInterval(refreshStatus, 300);
+</script>
+
+</body>
+</html>
