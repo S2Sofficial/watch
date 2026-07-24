@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WATCH UI Preview</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    color:#fff;
+    overflow-x:hidden;
+    position:relative;
+}
+
+/* ---------------- Background Video ---------------- */
+
+#bg-video{
+    position:fixed;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:-3;
+}
+
+/* Dark Overlay */
+
+.overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(4px);
+    z-index:-2;
+}
+
+/* ---------------- Main Container ---------------- */
+
+.container{
+    position:relative;
+    z-index:1;
+    max-width:1100px;
+    margin:auto;
+    padding:50px 30px;
+}
+
+/* ---------------- Heading ---------------- */
+
+h1{
+    text-align:center;
+    font-size:3.5rem;
+    letter-spacing:8px;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#cfcfcf;
+    margin-bottom:60px;
+}
+
+/* ---------------- Video Cards ---------------- */
+
+.video-box{
+    margin-bottom:70px;
+}
+
+video.preview{
+    display:block;
+    width:100%;
+    max-height:700px;
+    object-fit:contain;
+    background:#000;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 15px 40px rgba(0,0,0,.45);
+}
+
+.version{
+    text-align:center;
+    margin-top:18px;
+    color:#ddd;
+    font-size:1.05rem;
+    letter-spacing:1px;
+}
+
+/* ---------------- Footer ---------------- */
+
+footer{
+    position:relative;
+    z-index:1;
+    margin-top:80px;
+    padding:30px;
+    text-align:center;
+    background:rgba(0,0,0,.25);
+    backdrop-filter:blur(8px);
+    border-top:1px solid rgba(255,255,255,.15);
+}
+
+footer a{
+    color:#fff;
+    text-decoration:none;
+    font-weight:600;
+    transition:.25s;
+}
+
+footer a:hover{
+    color:#63d5ff;
+}
+
+footer p{
+    margin-top:12px;
+    color:#bbb;
+    font-size:.95rem;
+}
+
+@media (max-width:768px){
+
+    .container{
+        padding:30px 15px;
+    }
+
+    h1{
+        font-size:2.4rem;
+        letter-spacing:5px;
+    }
+
+    video.preview{
+        max-height:400px;
+    }
+
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- Animated Background -->
+
+<video id="bg-video" autoplay muted loop playsinline>
+    <source src="assets/bg.mp4" type="video/mp4">
+</video>
+
+<div class="overlay"></div>
+
+<div class="container">
+
+    <h1>WATCH</h1>
+    <p class="subtitle">UI Design Comparison</p>
+
+    <!-- Version 1 -->
+
+    <div class="video-box">
+
+        <video class="preview" autoplay muted loop playsinline controls>
+            <source src="v1/version1.mp4" type="video/mp4">
+        </video>
+
+        <div class="version">
+            Version 1
+        </div>
+
+    </div>
+
+    <!-- Version 2 -->
+
+    <div class="video-box">
+
+        <video class="preview" autoplay muted loop playsinline controls>
+            <source src="v2/version2.mp4" type="video/mp4">
+        </video>
+
+        <div class="version">
+            Version 2
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+
+    <a href="https://github.com/s2sofficial/watch" target="_blank">
+        Wanna Contribute? Check it out on GitHub
+    </a>
+
+    <p>Built by Swaroop Kumar Yadav</p>
+
+</footer>
+
+</body>
+</html>
