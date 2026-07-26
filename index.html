@@ -3,8 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WATCH UI Preview</title>
+<meta name="theme-color" content="#000000">
+<meta name="description" content="WATCH — A minimal clock that tells you time on a 16x2 LCD.">
 
+<meta property="og:title" content="WATCH">
+<meta property="og:description" content="A minimal clock that tells you time on a 16x2 LCD.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://github.com/user-attachments/assets/30d6c0a2-d780-43b8-9ba6-0cc4291e513b">
+
+<title>WATCH • Minimal LCD Clock</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' fill='black'/%3E%3Ctext x='64' y='78' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-size='44' font-weight='700' fill='white'%3Et:me%3C/text%3E%3C/svg%3E">
+    
 <style>
 *{
     margin:0;
@@ -193,10 +202,14 @@ footer p{
 <footer>
 
     <a href="https://github.com/s2sofficial/watch" target="_blank">
-        Wanna Contribute? Check it out on GitHub
+        Available on GitHub
     </a>
 
-    <p>Built by Swaroop Kumar Yadav</p>
+    <p>Built by Swaroop Kumar Yadav & Claude • <span id="year"></span></p>
+
+    <script>
+    document.getElementById("year").textContent=new Date().getFullYear();
+    </script>
 
 </footer>
 
