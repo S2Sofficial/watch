@@ -149,6 +149,43 @@ footer p{
     }
 
 }
+
+/* ---------------- LCD Results ---------------- */
+
+.lcd-section{
+    margin:70px 0;
+}
+
+.lcd-section h2{
+    text-align:center;
+    margin-bottom:30px;
+    font-size:2rem;
+    letter-spacing:2px;
+}
+
+.lcd-gallery{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    flex-wrap:wrap;
+}
+
+.lcd-gallery img{
+    width:calc(50% - 12.5px);
+    max-width:500px;
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.15);
+    box-shadow:0 15px 40px rgba(0,0,0,.45);
+    object-fit:cover;
+}
+
+@media (max-width:768px){
+
+    .lcd-gallery img{
+        width:100%;
+    }
+
+}
 </style>
 
 </head>
@@ -196,6 +233,21 @@ footer p{
         </div>
 
     </div>
+
+    <!-- LCD Results -->
+
+````<div class="lcd-section">
+
+    <h2>LCD Output</h2>
+
+    <div class="lcd-gallery">
+
+        <img src="https://github.com/user-attachments/assets/cf7a77dc-0153-4384-8d9d-f25d191a89c9" alt="LCD Result 1">
+        <img src="https://github.com/user-attachments/assets/4e9a8282-e7e5-49fd-b04d-29c2351a91fd" alt="LCD Result 2">
+
+    </div>
+
+</div>
 
 </div>
 
