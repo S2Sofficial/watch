@@ -13,7 +13,7 @@
 
 <title>WATCH • Minimal LCD Clock</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' fill='black'/%3E%3Ctext x='64' y='78' text-anchor='middle' font-family='Arial,Helvetica,sans-serif' font-size='44' font-weight='700' fill='white'%3Et:me%3C/text%3E%3C/svg%3E">
-    
+
 <style>
 *{
     margin:0;
@@ -30,6 +30,7 @@ body{
     color:#fff;
     overflow-x:hidden;
     position:relative;
+    background:#000;
 }
 
 /* ---------------- Background Video ---------------- */
@@ -41,6 +42,7 @@ body{
     height:100%;
     object-fit:cover;
     z-index:-3;
+    opacity:.55;
 }
 
 /* Dark Overlay */
@@ -48,8 +50,10 @@ body{
 .overlay{
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,.55);
-    backdrop-filter:blur(4px);
+    background:
+        radial-gradient(ellipse at 50% 0%,rgba(0,0,0,.15),rgba(0,0,0,.75) 70%),
+        linear-gradient(180deg,rgba(0,0,0,.5) 0%,rgba(0,0,0,.35) 40%,rgba(0,0,0,.75) 100%);
+    backdrop-filter:blur(2px);
     z-index:-2;
 }
 
@@ -58,55 +62,296 @@ body{
 .container{
     position:relative;
     z-index:1;
-    max-width:1100px;
+    max-width:900px;
     margin:auto;
-    padding:50px 30px;
+    padding:70px 24px 40px;
 }
 
-/* ---------------- Heading ---------------- */
+/* ---------------- Reveal-on-scroll ---------------- */
+
+.reveal{
+    opacity:0;
+    transform:translateY(24px);
+    transition:opacity .7s ease,transform .7s ease;
+}
+
+.reveal.in-view{
+    opacity:1;
+    transform:none;
+}
+
+@media (prefers-reduced-motion:reduce){
+    .reveal{
+        opacity:1;
+        transform:none;
+        transition:none;
+    }
+}
+
+/* ---------------- Hero ---------------- */
+
+.hero{
+    text-align:center;
+    margin-bottom:48px;
+}
+
+.eyebrow{
+    display:inline-block;
+    font-size:.7rem;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:#9fd8ff;
+    border:1px solid rgba(159,216,255,.35);
+    padding:5px 14px;
+    border-radius:999px;
+    margin-bottom:18px;
+}
 
 h1{
-    text-align:center;
-    font-size:3.5rem;
-    letter-spacing:8px;
-    margin-bottom:10px;
+    font-size:2.6rem;
+    letter-spacing:6px;
+    font-weight:700;
+    margin-bottom:12px;
 }
 
 .subtitle{
-    text-align:center;
     color:#cfcfcf;
-    margin-bottom:60px;
+    font-size:1rem;
+    max-width:480px;
+    margin:0 auto;
+    line-height:1.6;
 }
 
-/* ---------------- Video Cards ---------------- */
+/* ---------------- Latest callout ---------------- */
 
-.video-box{
-    margin-bottom:70px;
+.latest-callout{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin:26px auto 0;
+    font-size:.85rem;
+    color:#ddd;
 }
 
-.video-link{
+.latest-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:7px;
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.14);
+    padding:6px 14px;
+    border-radius:999px;
+}
+
+.latest-badge .dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#63d5ff;
+    box-shadow:0 0 8px #63d5ff;
+    animation:pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse{
+    0%,100%{opacity:1;}
+    50%{opacity:.35;}
+}
+
+@media (prefers-reduced-motion:reduce){
+    .latest-badge .dot{
+        animation:none;
+    }
+}
+
+/* ---------------- Section labels ---------------- */
+
+.section-label{
+    text-align:center;
+    font-size:.7rem;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:#8a8a8a;
+    margin:0 0 18px;
+}
+
+/* ---------------- Featured (v3) ---------------- */
+
+.featured{
+    margin-bottom:56px;
+}
+
+.media-link{
     display:block;
     color:inherit;
     text-decoration:none;
 }
 
-video.preview{
-    display:block;
-    width:100%;
-    max-height:700px;
-    object-fit:contain;
+.media-panel{
+    position:relative;
+    border-radius:16px;
+    overflow:hidden;
     background:#000;
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,.15);
-    box-shadow:0 15px 40px rgba(0,0,0,.45);
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 20px 50px rgba(0,0,0,.4);
+    transition:border-color .3s ease,transform .3s ease;
 }
 
-.version{
-    text-align:center;
-    margin-top:18px;
-    color:#ddd;
-    font-size:1.05rem;
+.media-link:hover .media-panel{
+    border-color:rgba(99,213,255,.4);
+    transform:translateY(-2px);
+}
+
+.featured video.preview{
+    display:block;
+    width:100%;
+    max-height:560px;
+    object-fit:contain;
+    background:#000;
+}
+
+.caption-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    margin-top:16px;
+    padding:0 2px;
+}
+
+.caption-row .name{
+    font-size:1rem;
     letter-spacing:1px;
+    color:#f2f2f2;
+    font-weight:600;
+}
+
+.caption-row .tag{
+    font-size:.75rem;
+    color:#9fd8ff;
+    letter-spacing:.5px;
+}
+
+/* ---------------- What changed ---------------- */
+
+.changelog{
+    margin:20px 2px 0;
+    padding:18px 20px;
+    border-left:2px solid rgba(99,213,255,.4);
+    background:rgba(255,255,255,.03);
+    border-radius:0 10px 10px 0;
+}
+
+.changelog p{
+    font-size:.7rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#9fd8ff;
+    margin-bottom:10px;
+}
+
+.changelog ul{
+    list-style:none;
+    display:grid;
+    gap:8px;
+    font-size:.9rem;
+    color:#d6d6d6;
+    line-height:1.5;
+}
+
+.changelog li{
+    padding-left:16px;
+    position:relative;
+}
+
+.changelog li::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:.55em;
+    width:5px;
+    height:5px;
+    border-radius:50%;
+    background:#63d5ff;
+}
+
+/* ---------------- Archive (v1/v2) ---------------- */
+
+.archive{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+    margin-bottom:56px;
+}
+
+.archive .media-link:nth-child(2){
+    transition-delay:.12s;
+}
+
+.archive .media-panel{
+    box-shadow:0 10px 26px rgba(0,0,0,.35);
+}
+
+.archive video.preview{
+    display:block;
+    width:100%;
+    max-height:280px;
+    object-fit:contain;
+    background:#000;
+    opacity:.88;
+    transition:opacity .3s ease;
+}
+
+.archive .media-link:hover video.preview{
+    opacity:1;
+}
+
+.archive .caption-row .name{
+    font-size:.85rem;
+    color:#c7c7c7;
+}
+
+.archive .caption-row .tag{
+    color:#777;
+    font-size:.7rem;
+}
+
+/* ---------------- LCD Results ---------------- */
+
+.lcd-section{
+    margin-bottom:20px;
+}
+
+.lcd-note{
+    text-align:center;
+    color:#9a9a9a;
+    font-size:.85rem;
+    max-width:440px;
+    margin:0 auto 22px;
+    line-height:1.6;
+}
+
+.lcd-gallery{
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    flex-wrap:wrap;
+}
+
+.lcd-gallery img{
+    width:calc(50% - 7px);
+    max-width:280px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.1);
+    box-shadow:0 10px 26px rgba(0,0,0,.35);
+    object-fit:cover;
+    opacity:.9;
+    transition:opacity .3s ease,transform .3s ease;
+}
+
+.lcd-gallery img:hover{
+    opacity:1;
+    transform:translateY(-2px);
 }
 
 /* ---------------- Footer ---------------- */
@@ -114,12 +359,12 @@ video.preview{
 footer{
     position:relative;
     z-index:1;
-    margin-top:80px;
-    padding:30px;
+    margin-top:60px;
+    padding:26px;
     text-align:center;
-    background:rgba(0,0,0,.25);
+    background:rgba(0,0,0,.3);
     backdrop-filter:blur(8px);
-    border-top:1px solid rgba(255,255,255,.15);
+    border-top:1px solid rgba(255,255,255,.1);
 }
 
 footer a{
@@ -134,61 +379,37 @@ footer a:hover{
 }
 
 footer p{
-    margin-top:12px;
-    color:#bbb;
-    font-size:.95rem;
+    margin-top:10px;
+    color:#999;
+    font-size:.85rem;
 }
 
 @media (max-width:768px){
 
     .container{
-        padding:30px 15px;
+        padding:50px 18px 30px;
     }
 
     h1{
-        font-size:2.4rem;
-        letter-spacing:5px;
+        font-size:1.9rem;
+        letter-spacing:4px;
     }
 
-    video.preview{
-        max-height:400px;
+    .featured video.preview{
+        max-height:340px;
     }
 
-}
+    .archive{
+        grid-template-columns:1fr;
+    }
 
-/* ---------------- LCD Results ---------------- */
-
-.lcd-section{
-    margin:70px 0;
-}
-
-.lcd-section h2{
-    text-align:center;
-    margin-bottom:30px;
-    font-size:2rem;
-    letter-spacing:2px;
-}
-
-.lcd-gallery{
-    display:flex;
-    justify-content:center;
-    gap:25px;
-    flex-wrap:wrap;
-}
-
-.lcd-gallery img{
-    width:calc(50% - 12.5px);
-    max-width:500px;
-    border-radius:18px;
-    border:1px solid rgba(255,255,255,.15);
-    box-shadow:0 15px 40px rgba(0,0,0,.45);
-    object-fit:cover;
-}
-
-@media (max-width:768px){
+    .archive video.preview{
+        max-height:300px;
+    }
 
     .lcd-gallery img{
         width:100%;
+        max-width:none;
     }
 
 }
@@ -208,72 +429,94 @@ footer p{
 
 <div class="container">
 
-    <h1>WATCH</h1>
-    <p class="subtitle">A minimal Clock that tells you time on 16x2 LCD</p>
+    <!-- Hero -->
 
-    <!-- Version 1 -->
+    <div class="hero reveal">
+        <span class="eyebrow">Version 3</span>
+        <h1>WATCH</h1>
+        <p class="subtitle">A minimal Wi-Fi clock, timer, and stopwatch controlled entirely from the browser, shown live on a 16x2 LCD.</p>
 
-    <a class="video-link" href="https://github.com/S2Sofficial/watch/tree/main/v1" target="_blank" rel="noopener noreferrer">
-        <div class="video-box">
+        <div class="latest-callout">
+            <span class="latest-badge"><span class="dot"></span> Latest build — Version 3</span>
+        </div>
+    </div>
 
-            <video class="preview" autoplay muted loop playsinline>
-                
-                <source src="v1/version1.mp4" type="video/mp4">
-            </video>
+    <!-- Featured: Version 3 -->
 
-            <div class="version">
-                Version 1
+    <div class="featured reveal">
+
+        <a class="media-link" href="https://github.com/S2Sofficial/watch/tree/main/v3" target="_blank" rel="noopener noreferrer">
+            <div class="media-panel">
+                <video class="preview" autoplay muted loop playsinline>
+                    <source src="v3/version3.mp4" type="video/mp4">
+                </video>
             </div>
 
-        </div>
-    </a>
-
-    <!-- Version 2 -->
-
-    <a class="video-link" href="https://github.com/S2Sofficial/watch/tree/main/v2" target="_blank" rel="noopener noreferrer">
-        <div class="video-box">
-
-            <video class="preview" autoplay muted loop playsinline>
-                <source src="v2/version2.mp4" type="video/mp4">
-            </video>
-
-            <div class="version">
-                Version 2
+            <div class="caption-row">
+                <span class="name">Version 3</span>
+                <span class="tag">Current</span>
             </div>
+        </a>
 
+        <div class="changelog">
+            <p>What changed in v3</p>
+            <ul>
+                <li>LCD wiring switched from parallel 4-bit to I2C — down to two signal wires.</li>
+                <li>The web UI is noticeably more responsive, with input lag largely eliminated.</li>
+                <li>Wi-Fi loss is now shown on the LCD and recovers automatically.</li>
+                <li>More stable overall, with clamped inputs and reduced memory churn.</li>
+            </ul>
         </div>
-    </a>
-
-    <!-- Version 3 -->
-
-    <a class="video-link" href="https://github.com/S2Sofficial/watch/tree/main/v3" target="_blank" rel="noopener noreferrer">
-        <div class="video-box">
-
-            <video class="preview" autoplay muted loop playsinline>
-                <source src="v3/version3.mp4" type="video/mp4">
-            </video>
-
-            <div class="version">
-                Version 3
-            </div>
-
-        </div>
-    </a>
-
-    <!-- LCD Results -->
-
-<div class="lcd-section">
-
-    <h2>LCD Output</h2>
-
-    <div class="lcd-gallery">
-
-        <img src="https://github.com/user-attachments/assets/cf7a77dc-0153-4384-8d9d-f25d191a89c9" alt="LCD Result 1">
-        <img src="https://github.com/user-attachments/assets/4e9a8282-e7e5-49fd-b04d-29c2351a91fd" alt="LCD Result 2">
 
     </div>
 
-</div>
+    <!-- Archive: Version 1 & 2 -->
+
+    <p class="section-label reveal">Earlier versions</p>
+
+    <div class="archive">
+
+        <a class="media-link reveal" href="https://github.com/S2Sofficial/watch/tree/main/v2" target="_blank" rel="noopener noreferrer">
+            <div class="media-panel">
+                <video class="preview" autoplay muted loop playsinline>
+                    <source src="v2/version2.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="caption-row">
+                <span class="name">Version 2</span>
+                <span class="tag">Archive</span>
+            </div>
+        </a>
+
+        <a class="media-link reveal" href="https://github.com/S2Sofficial/watch/tree/main/v1" target="_blank" rel="noopener noreferrer">
+            <div class="media-panel">
+                <video class="preview" autoplay muted loop playsinline>
+                    <source src="v1/version1.mp4" type="video/mp4">
+                </video>
+            </div>
+
+            <div class="caption-row">
+                <span class="name">Version 1</span>
+                <span class="tag">Archive</span>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- LCD Results -->
+
+    <div class="lcd-section reveal">
+
+        <p class="section-label">LCD output</p>
+        <p class="lcd-note">The 16x2 display in earlier builds, before the v3 move to I2C wiring and steadier output.</p>
+
+        <div class="lcd-gallery">
+            <img src="https://github.com/user-attachments/assets/cf7a77dc-0153-4384-8d9d-f25d191a89c9" alt="LCD Result 1">
+            <img src="https://github.com/user-attachments/assets/4e9a8282-e7e5-49fd-b04d-29c2351a91fd" alt="LCD Result 2">
+        </div>
+
+    </div>
 
 </div>
 
@@ -285,11 +528,34 @@ footer p{
 
     <p>Built by Swaroop Kumar Yadav & Claude • <span id="year"></span></p>
 
-    <script>
-    document.getElementById("year").textContent=new Date().getFullYear();
-    </script>
-
 </footer>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    document.querySelectorAll(".reveal").forEach(function(el){
+        el.classList.add("in-view");
+    });
+}else if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+            if(entry.isIntersecting){
+                entry.target.classList.add("in-view");
+                io.unobserve(entry.target);
+            }
+        });
+    },{threshold:.15});
+
+    document.querySelectorAll(".reveal").forEach(function(el){
+        io.observe(el);
+    });
+}else{
+    document.querySelectorAll(".reveal").forEach(function(el){
+        el.classList.add("in-view");
+    });
+}
+</script>
 
 </body>
 </html>
