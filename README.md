@@ -11,8 +11,9 @@ Visit https://s2sofficial.github.io/watch/
 - The web UI is noticeably more responsive.
 - The IP address is shown on the LCD
 - Minor stability and correctness fixes
-<img width="4080" height="3072" alt="IMG20260803212021" src="https://github.com/user-attachments/assets/aad541b7-476b-4c07-ad31-6c41c5f46ab8" />
-<img width="3072" height="4080" alt="IMG20260803200042" src="https://github.com/user-attachments/assets/6c1e940c-4378-4839-a281-073d46c53527" />
+- Check out more on [WATCH Version-3](/v3)
+<img width="1280" height="720" alt="WATCH Project" src="https://github.com/user-attachments/assets/fad18f48-db20-4f57-9abf-1e1407d88df1" />
+
 
 ## Version-2 Update
 <img width="4080" height="3072" alt="1000551835" src="https://github.com/user-attachments/assets/cf7a77dc-0153-4384-8d9d-f25d191a89c9" />
