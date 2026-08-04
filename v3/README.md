@@ -7,6 +7,8 @@ buttons, switches, or a buzzer on the device itself — every action
 (setting a timer, starting the stopwatch, switching what the LCD
 shows) happens over Wi-Fi from the page the device serves.
 
+<img width="1280" height="720" alt="WATCH Project" src="https://github.com/user-attachments/assets/fad18f48-db20-4f57-9abf-1e1407d88df1" />
+
 ## Why a Wi-Fi-controlled watch
 
 Because there is no on-device input hardware to wire up or fail, the
@@ -188,6 +190,8 @@ without Wi-Fi the web UI can't be reached anyway.
 | `Clock`      | `HH:MM:SS`          | Clock is selected and synced.                                                    | Normal 24-hour clock display, resynced hourly. |
 | `Timer`      | `HH:MM:SS`          | Timer is selected.                                                               | Time remaining on the countdown, set from the web UI. |
 | `Stopwatch`  | `MM:SS.hh`          | Stopwatch is selected.                                                           | Elapsed time (`hh` = hundredths of a second). |
+
+<img width="1280" height="720" alt="LED References" src="https://github.com/user-attachments/assets/ed64e226-b552-4f08-8482-2f889e544d26" />
 
 The web page also shows a status badge on the Timer and Stopwatch
 cards:
